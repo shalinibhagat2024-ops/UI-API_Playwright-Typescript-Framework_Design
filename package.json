@@ -18,6 +18,7 @@
   "homepage": "https://github.com/shalinibhagat2024-ops/UI-API_Playwright-Typescript_Demo#readme",
   "devDependencies": {
     "@playwright/test": "^1.61.0",
-    "@types/node": "^26.0.0"
+    "@types/node": "^26.0.0",
+    "typescript": "^5.8.3"
   }
 }
