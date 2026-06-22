@@ -1,0 +1,26 @@
+{
+  "application": {
+    "baseUrl": "https://automationexercise.com"
+  },
+
+  "api": {
+    "baseUrl": "https://automationexercise.com/api"
+  },
+
+  "browser": {
+    "name": "chromium",
+    "headless": false
+  },
+
+  "execution": {
+    "timeout": 30000,
+    "retries": 1,
+    "workers": 4
+  },
+
+  "reporting": {
+    "screenshot": "only-on-failure",
+    "video": "retain-on-failure",
+    "trace": "retain-on-failure"
+  }
+}
