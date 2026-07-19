@@ -9,6 +9,39 @@ on:
     branches:
       - main
 
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment"
+        required: true
+        default: "qa"
+        type: choice
+        options:
+          - qa
+          - dev
+          - prod
+
+      browser:
+        description: "Browser"
+        required: true
+        default: "chromium"
+        type: choice
+        options:
+          - chromium
+          - firefox
+          - webkit
+
+      suite:
+        description: "Test Suite"
+        required: true
+        default: "all"
+        type: choice
+        options:
+          - all
+          - smoke
+          - regression
+          - sanity
+
 jobs:
   ui-automation:
     name: UI Automation
@@ -18,7 +51,7 @@ jobs:
     timeout-minutes: 60
 
     env:
-      ENV: qa
+      ENV: ${{ github.event.inputs.environment || 'qa' }}
       ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
       ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
 
@@ -41,8 +74,14 @@ jobs:
       - name: Generate Admin Authentication
         run: npm run auth:admin
 
+      - name: Show Selected Options
+        run: |
+          echo "Environment : $ENV"
+          echo "Browser     : ${{ github.event.inputs.browser || 'chromium' }}"
+          echo "Suite       : ${{ github.event.inputs.suite || 'all' }}"
+
       - name: Execute UI Tests
-        run: npm run test:ui:auth
+        run: npm run test:ui
 
       - name: Upload Playwright Report
         if: always()
@@ -56,7 +95,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results
+          name: allure-results/
           path: allure-results/
           retention-days: 30
 
@@ -64,6 +103,6 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
+          name: test-results/
           path: test-results/
           retention-days: 30
