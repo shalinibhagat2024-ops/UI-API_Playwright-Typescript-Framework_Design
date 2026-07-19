@@ -81,7 +81,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Generate Authentication
-        run: npm run chromium-auth
+        run: npm run test:ui
 
       - name: Make Execute Script Executable
         run: chmod +x .github/scripts/execute-ui.sh

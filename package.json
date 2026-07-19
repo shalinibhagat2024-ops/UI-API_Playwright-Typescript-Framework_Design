@@ -15,7 +15,7 @@
   },
   "scripts": {
     "auth:admin": "playwright test --project=setup-admin",
-    "test:ui": "playwright test",
+    "test:ui": "playwright test --project=chromium-auth",
     "test:api": "playwright test --project=api",
     "report:generate": "allure generate allure-results --clean -o allure-report",
     "report:open": "allure open allure-report",
