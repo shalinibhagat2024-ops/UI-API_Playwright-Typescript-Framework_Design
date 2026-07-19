@@ -6,7 +6,7 @@ test.describe("End To End Sanity", () => {
   test(
     "Complete Purchase Flow",
     {
-      tag: ["@sanity", "@smoke", "@e2e"],
+      tag: ["@sanity", "@e2e", "@p1"],
     },
     async ({ pages }) => {
       const product = ProductFactory.blueTop();

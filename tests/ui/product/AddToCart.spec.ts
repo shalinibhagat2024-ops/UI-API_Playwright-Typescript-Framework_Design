@@ -5,7 +5,7 @@ test.describe("Add Product", () => {
   test(
     "Add Product To Cart",
     {
-      tag: ["@ui", "@product", "@regression"],
+      tag: ["@ui", "@product", "@regression", "@smoke", "p2"],
     },
     async ({ pages }) => {
       const product = ProductFactory.blueTop();
