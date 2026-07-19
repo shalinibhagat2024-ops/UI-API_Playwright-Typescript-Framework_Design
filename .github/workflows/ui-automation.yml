@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: "Environment"
+        description: Environment
         required: true
-        default: "qa"
+        default: qa
         type: choice
         options:
           - qa
@@ -14,9 +14,9 @@ on:
           - prod
 
       browser:
-        description: "Browser"
+        description: Browser
         required: true
-        default: "chromium"
+        default: chromium
         type: choice
         options:
           - chromium
@@ -24,9 +24,9 @@ on:
           - webkit
 
       suite:
-        description: "Suite"
+        description: Test Suite
         required: true
-        default: "regression"
+        default: regression
         type: choice
         options:
           - smoke
@@ -40,7 +40,7 @@ concurrency:
 
 jobs:
   ui-tests:
-    name: UI Tests (Shard ${{ matrix.shard }})
+    name: UI Tests (${{ matrix.artifactName }})
 
     runs-on: ubuntu-latest
 
@@ -50,10 +50,15 @@ jobs:
       fail-fast: false
 
       matrix:
-        shard:
-          - 1/3
-          - 2/3
-          - 3/3
+        include:
+          - shard: "1/3"
+            artifactName: "shard-1"
+
+          - shard: "2/3"
+            artifactName: "shard-2"
+
+          - shard: "3/3"
+            artifactName: "shard-3"
 
     env:
       ENV: ${{ github.event.inputs.environment }}
@@ -81,7 +86,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Generate Authentication
-        run: npm run test:ui
+        run: npm run auth:admin
 
       - name: Make Execute Script Executable
         run: chmod +x .github/scripts/execute-ui.sh
@@ -93,22 +98,25 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-${{ matrix.shard }}
+          name: playwright-report-${{ matrix.artifactName }}
           path: playwright-report
+          if-no-files-found: warn
           retention-days: 7
 
       - name: Upload Allure Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results-${{ matrix.shard }}
+          name: allure-results-${{ matrix.artifactName }}
           path: allure-results
+          if-no-files-found: warn
           retention-days: 7
 
-      - name: Upload Test Results
+      - name: Upload Failed Test Results
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: failed-tests-${{ matrix.shard }}
+          name: failed-tests-${{ matrix.artifactName }}
           path: test-results
+          if-no-files-found: warn
           retention-days: 7

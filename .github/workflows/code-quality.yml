@@ -33,10 +33,10 @@ jobs:
         run: npm ci
 
       - name: TypeScript Type Check
-        run: npx tsc --noEmit
+        run: npm run type-check
 
       - name: ESLint
-        run: npx eslint . --ext .ts
+        run: npm run lint
 
-      - name: Check Playwright Installation
+      - name: Verify Playwright Installation
         run: npx playwright --version

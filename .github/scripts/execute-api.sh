@@ -1,23 +1,24 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
-echo "=============================================="
+echo "====================================================="
 echo "      Playwright API Automation Execution"
-echo "=============================================="
+echo "====================================================="
 
-echo "Environment    : $ENV"
-echo "Suite          : $SUITE"
-echo "=============================================="
+echo "Environment : ${ENV:-qa}"
+echo "Suite       : ${SUITE:-all}"
+echo "====================================================="
 
-COMMAND="npx playwright test --project=api"
+# Build Playwright command
+COMMAND=("npx" "playwright" "test" "--project=api")
 
 #########################################################
 # Suite
 #########################################################
 
-if [ "$SUITE" != "all" ]; then
-  COMMAND="$COMMAND --grep @$SUITE"
+if [[ "${SUITE:-all}" != "all" ]]; then
+    COMMAND+=("--grep" "@${SUITE}")
 fi
 
 #########################################################
@@ -26,20 +27,21 @@ fi
 
 echo ""
 echo "Executing Command:"
-echo "$COMMAND"
+printf '%q ' "${COMMAND[@]}"
+echo ""
 echo ""
 
 #########################################################
-# Execute Tests
+# Execute
 #########################################################
 
-eval "$COMMAND"
+"${COMMAND[@]}"
 
 #########################################################
-# Execution Completed
+# Completed
 #########################################################
 
 echo ""
-echo "=============================================="
-echo " API Automation Execution Completed Successfully "
-echo "=============================================="
+echo "====================================================="
+echo "API Automation Execution Completed Successfully"
+echo "====================================================="

@@ -5,14 +5,16 @@ on:
     tags:
       - "v*"
 
+permissions:
+  contents: write
+
 jobs:
-  release:
+  create-release:
     name: Create GitHub Release
 
     runs-on: ubuntu-latest
 
-    permissions:
-      contents: write
+    timeout-minutes: 15
 
     steps:
       - name: Checkout Repository
@@ -22,3 +24,5 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           generate_release_notes: true
+          draft: false
+          prerelease: false
