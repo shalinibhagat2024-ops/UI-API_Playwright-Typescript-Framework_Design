@@ -4,7 +4,7 @@ test.describe("Brand", () => {
   test(
     "Verify Polo",
     {
-      tag: ["@ui", "@product", "@regression"],
+      tag: ["@ui", "@product", "@regression", "@p1"],
     },
     async ({ pages, page }) => {
       await pages.automationExercise.home.open();

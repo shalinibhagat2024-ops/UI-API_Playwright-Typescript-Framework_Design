@@ -13,6 +13,7 @@ export class ProductsPage extends BasePage {
 
   // Product Grid
   private readonly productCards: Locator;
+  private readonly searchProductField: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -22,6 +23,7 @@ export class ProductsPage extends BasePage {
 
     // Every product is inside one col-sm-4
     this.productCards = page.locator(".product-image-wrapper");
+    this.searchProductField = page.getByPlaceholder("Search Product");
   }
 
   /**
@@ -30,6 +32,15 @@ export class ProductsPage extends BasePage {
   public async open(): Promise<void> {
     Logger.info("Opening Products Page.");
     await this.ui.button(this.btnProducts).click();
+  }
+
+  /**
+   * Verify Product Opened
+   */
+  public async verifyOpened(): Promise<void> {
+    Logger.info("Verifying Cart Page.");
+    await expect(this.page).toHaveURL(/products/);
+    await expect(this.searchProductField).toBeVisible();
   }
 
   /**

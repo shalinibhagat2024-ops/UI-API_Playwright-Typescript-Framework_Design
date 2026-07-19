@@ -77,8 +77,29 @@ export default defineConfig({
   projects: [
     {
       name: "setup-admin",
-      testDir: "./tests/setup",
-      testMatch: /admin\.setup\.ts$/,
+      testDir: "./tests/ui/auth",
+      testMatch: "setup-admin.setup.ts",
+    },
+
+    {
+      name: "chromium-auth",
+      testDir: "./tests/ui",
+      testIgnore: ["**/authorization/**"],
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "playwright/.auth/AdminUser.json",
+      },
+      dependencies: ["setup-admin"],
+    },
+
+    {
+      name: "chromium-anonymous",
+      testDir: "./tests/ui/authorization",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "playwright/.auth/AdminUser.json",
+      },
+      dependencies: ["setup-admin"],
     },
 
     {
@@ -110,7 +131,6 @@ export default defineConfig({
       },
       dependencies: ["setup-admin"],
     },
-
     {
       name: "api",
       testDir: "./tests/api",

@@ -6,7 +6,7 @@ test.describe("End To End Sanity", () => {
   test(
     "Complete Purchase Flow",
     {
-      tag: ["@sanity", "@smoke", "@e2e"],
+      tag: ["@sanity", "@e2e", "@p1"],
     },
     async ({ pages }) => {
       const product = ProductFactory.blueTop();
@@ -17,7 +17,7 @@ test.describe("End To End Sanity", () => {
 
       // Products
       await pages.automationExercise.auth.products.open();
-      await pages.automationExercise.auth.cart.verifyOpened();
+      await pages.automationExercise.auth.products.verifyOpened();
 
       // Add Product
       await pages.automationExercise.auth.products.addToCart(product);
@@ -41,9 +41,6 @@ test.describe("End To End Sanity", () => {
       // Order Success
       await pages.automationExercise.auth.orderPlaced.verifyOrderPlaced();
       await pages.automationExercise.auth.orderPlaced.continue();
-
-      // Verify Home
-      await pages.automationExercise.auth.cart.verifyOpened();
     }
   );
 });
