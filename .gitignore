@@ -1,16 +1,71 @@
+# Dependencies
 node_modules/
+
+# Authentication
+.auth/
+playwright/.auth/
+storageState/
+
+# Environment Files
+.env
+.env.*
+!.env.example
+
+# Reports
 playwright-report/
 test-results/
 blob-report/
-coverage/
-.env
-.env.*
 allure-results/
 allure-report/
-dist/
+coverage/
+.nyc_output/
+report/
+reports/
 
-# Playwright
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-/playwright/.auth/
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE
+.vscode/*
+!.vscode/settings.json
+.idea/
+
+# OS Files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# TypeScript
+*.tsbuildinfo
+
+# Build Output
+dist/
+build/
+out/
+
+# Temporary Files
+tmp/
+temp/
+.cache/
+
+# Docker
+docker-compose.override.yml
+
+# Azure / GitHub
+.azure/
+.github/*.local
+
+# Miscellaneous
+*.bak
+*.tmp
+*.swp
+*.swo
+*.pid
+*.seed
+*.pid.lock
+*.trace

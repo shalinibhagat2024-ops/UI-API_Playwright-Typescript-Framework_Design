@@ -1,0 +1,15 @@
+{
+  "admin": {
+    "firstName": "System",
+    "lastName": "Admin",
+    "age": 35,
+    "gender": "male"
+  },
+
+  "employee": {
+    "firstName": "Automation",
+    "lastName": "Employee",
+    "age": 28,
+    "gender": "female"
+  }
+}

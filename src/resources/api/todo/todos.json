@@ -1,0 +1,12 @@
+{
+  "completed": {
+    "todo": "Automation Completed",
+    "completed": true,
+    "userId": 1
+  },
+  "pending": {
+    "todo": "Automation Pending",
+    "completed": false,
+    "userId": 1
+  }
+}

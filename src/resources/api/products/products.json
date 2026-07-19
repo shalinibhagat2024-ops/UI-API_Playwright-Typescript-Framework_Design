@@ -1,0 +1,23 @@
+{
+  "smartPhone": {
+    "title": "iPhone 16",
+    "description": "Apple Smartphone",
+    "category": "smartphones",
+    "price": 1200,
+    "discountPercentage": 5,
+    "rating": 4.8,
+    "stock": 100,
+    "brand": "Apple"
+  },
+
+  "laptop": {
+    "title": "MacBook Pro",
+    "description": "Apple Laptop",
+    "category": "laptops",
+    "price": 2500,
+    "discountPercentage": 10,
+    "rating": 4.9,
+    "stock": 50,
+    "brand": "Apple"
+  }
+}

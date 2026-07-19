@@ -1,0 +1,39 @@
+[
+  {
+    "title": "Mr",
+    "name": "Shalini Bhagat",
+    "password": "Test@123",
+    "day": "10",
+    "month": "5",
+    "year": "1995",
+    "firstName": "Shalini",
+    "lastName": "Bhagat",
+    "company": "OpenAI",
+    "address1": "Road No 10",
+    "address2": "Madhapur",
+    "country": "India",
+    "state": "Telangana",
+    "city": "Hyderabad",
+    "zipcode": "500081",
+    "mobileNumber": "9876543210"
+  },
+
+  {
+    "title": "Mrs",
+    "name": "John Smith",
+    "password": "Password@123",
+    "day": "20",
+    "month": "6",
+    "year": "1993",
+    "firstName": "John",
+    "lastName": "Smith",
+    "company": "Automation",
+    "address1": "Street 11",
+    "address2": "Area 5",
+    "country": "India",
+    "state": "Karnataka",
+    "city": "Bangalore",
+    "zipcode": "560001",
+    "mobileNumber": "9123456789"
+  }
+]

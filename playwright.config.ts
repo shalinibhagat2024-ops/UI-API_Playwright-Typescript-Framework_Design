@@ -1,79 +1,123 @@
-import { defineConfig, devices } from '@playwright/test';
+import { EnvironmentManager } from "@core/config/EnvironmentManager";
+import { defineConfig, devices } from "@playwright/test";
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+const execution = EnvironmentManager.getExecutionConfig();
+const browser = EnvironmentManager.getBrowserConfig();
+const reporting = EnvironmentManager.getReportingConfig();
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
+const PLAYWRIGHT_REPORT = "playwright-report";
+const ALLURE_RESULTS = "allure-results";
+const TEST_RESULTS = "test-results";
+
 export default defineConfig({
-  testDir: './tests',
-  /* Run tests in files in parallel */
-  fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
-  forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
-    /* Base URL to use in actions like `await page.goto('')`. */
-    // baseURL: 'http://localhost:3000',
+  globalSetup: require.resolve("./src/global.setup"),
+  fullyParallel: false,
 
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'on-first-retry',
+  forbidOnly: !!process.env.CI,
+
+  retries: process.env.CI ? 2 : execution.retries,
+
+  workers: process.env.CI ? 2 : undefined,
+
+  timeout: execution.timeout,
+
+  preserveOutput: "failures-only",
+
+  expect: {
+    timeout: execution.expectTimeout,
   },
 
-  /* Configure projects for major browsers */
-  projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
+  reporter: [
+    ["list"],
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    [
+      "html",
+      {
+        outputFolder: PLAYWRIGHT_REPORT,
+        open: "never",
+      },
+    ],
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-
-    /* Test against mobile viewports. */
-    // {
-    //   name: 'Mobile Chrome',
-    //   use: { ...devices['Pixel 5'] },
-    // },
-    // {
-    //   name: 'Mobile Safari',
-    //   use: { ...devices['iPhone 12'] },
-    // },
-
-    /* Test against branded browsers. */
-    // {
-    //   name: 'Microsoft Edge',
-    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    // },
-    // {
-    //   name: 'Google Chrome',
-    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    // },
+    [
+      "allure-playwright",
+      {
+        outputFolder: ALLURE_RESULTS,
+        detail: true,
+        suiteTitle: true,
+      },
+    ],
   ],
 
-  /* Run your local dev server before starting the tests */
-  // webServer: {
-  //   command: 'npm run start',
-  //   url: 'http://localhost:3000',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  outputDir: TEST_RESULTS,
+
+  use: {
+    baseURL: EnvironmentManager.getBaseUrl(),
+
+    headless: process.env.CI ? true : browser.headless,
+
+    screenshot: reporting.screenshot as "off" | "on" | "only-on-failure",
+
+    video: reporting.video as "off" | "on" | "retain-on-failure" | "retry-with-video",
+
+    trace: reporting.trace as
+      "off" | "on" | "on-first-retry" | "retain-on-failure" | "retry-with-trace",
+
+    actionTimeout: 15000,
+
+    navigationTimeout: 30000,
+
+    ignoreHTTPSErrors: true,
+
+    viewport: {
+      width: 1920,
+      height: 1080,
+    },
+  },
+
+  projects: [
+    {
+      name: "setup-admin",
+      testDir: "./tests/setup",
+      testMatch: /admin\.setup\.ts$/,
+    },
+
+    {
+      name: "chromium",
+      testDir: "./tests/ui",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "playwright/.auth/AdminUser.json",
+      },
+      dependencies: ["setup-admin"],
+    },
+
+    {
+      name: "firefox",
+      testDir: "./tests/ui",
+      use: {
+        ...devices["Desktop Firefox"],
+        storageState: "playwright/.auth/AdminUser.json",
+      },
+      dependencies: ["setup-admin"],
+    },
+
+    {
+      name: "webkit",
+      testDir: "./tests/ui",
+      use: {
+        ...devices["Desktop Safari"],
+        storageState: "playwright/.auth/AdminUser.json",
+      },
+      dependencies: ["setup-admin"],
+    },
+
+    {
+      name: "api",
+      testDir: "./tests/api",
+      use: {
+        baseURL: EnvironmentManager.getApiBaseUrl(),
+        storageState: undefined,
+      },
+    },
+  ],
 });

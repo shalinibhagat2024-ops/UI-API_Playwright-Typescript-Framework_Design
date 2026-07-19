@@ -1,0 +1,13 @@
+export const CartTestData = {
+  defaultCart: {
+    userId: 1,
+
+    products: [
+      {
+        id: 1,
+
+        quantity: 2,
+      },
+    ],
+  },
+};

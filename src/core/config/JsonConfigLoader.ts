@@ -1,25 +1,21 @@
+import { Environment } from "@core/config/Environment";
 import fs from "fs";
 import path from "path";
-import { Environment } from "./Environment";
-import { EnvironmentConfig } from "./EnvironmentConfig";
 
 export class JsonConfigLoader {
+  public static load(): Environment {
+    const environment = process.env.ENV ?? "qa";
 
-    public static load(environment: Environment): EnvironmentConfig {
+    const profile = process.env.CI ? `${environment}-ci` : environment;
 
-        const configPath = path.resolve(
-            process.cwd(),
-            "config",
-            "environments",
-            `${environment}.json`
-        );
+    const filePath = path.resolve(
+      process.cwd(),
+      "src",
+      "resources",
+      "envirornment",
+      `${profile}.json`
+    );
 
-        if (!fs.existsSync(configPath)) {
-            throw new Error(`Configuration file not found: ${configPath}`);
-        }
-
-        const rawData = fs.readFileSync(configPath, "utf-8");
-
-        return JSON.parse(rawData) as EnvironmentConfig;
-    }
+    return JSON.parse(fs.readFileSync(filePath, "utf-8")) as Environment;
+  }
 }

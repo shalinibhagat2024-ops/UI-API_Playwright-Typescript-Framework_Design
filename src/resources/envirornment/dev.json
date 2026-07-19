@@ -1,0 +1,23 @@
+{
+  "environment": "dev",
+  "baseUrl": "https://automationexercise.com",
+  "apiBaseUrl": "https://dummyjson.com",
+  "applicationName": "Automation Exercise",
+  "testDataSource": "json",
+  "browser": {
+    "name": "chromium",
+    "headless": false,
+    "slowMo": 0
+  },
+  "execution": {
+    "workers": 4,
+    "timeout": 60000,
+    "expectTimeout": 15000,
+    "retries": 1
+  },
+  "reporting": {
+    "screenshot": "only-on-failure",
+    "video": "retain-on-failure",
+    "trace": "retain-on-failure"
+  }
+}

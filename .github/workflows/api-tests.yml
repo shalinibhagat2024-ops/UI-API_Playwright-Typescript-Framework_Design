@@ -1,0 +1,91 @@
+name: API Automation Tests
+
+on:
+  push:
+    branches:
+      - shaliniQA
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Select Environment"
+        required: true
+        default: "qa"
+        type: choice
+        options:
+          - qa
+          - stage
+          - prod
+
+  schedule:
+    # Every day at 5:00 PM IST (11:30 UTC)
+    - cron: "30 11 * * *"
+
+env:
+  # Framework Configuration
+
+  ENV: ${{ github.event.inputs.environment || 'qa' }}
+
+  NODE_VERSION: 22
+
+  # GitHub Secrets
+
+  ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
+  ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
+
+jobs:
+  api-tests:
+    name: API Automation
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 30
+
+    steps:
+      # Checkout Repository
+
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Setup Node.js
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      # Install Dependencies
+
+      - name: Install NPM Packages
+        run: npm ci
+
+      # Execute API Tests
+
+      - name: Execute API Automation
+        run: |
+          npm run test:api
+
+      # Upload Allure Results
+
+      - name: Upload Allure Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-results
+          path: allure-results
+          retention-days: 30
+
+      # Upload Test Results
+
+      - name: Upload Test Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: test-results
+          retention-days: 30
