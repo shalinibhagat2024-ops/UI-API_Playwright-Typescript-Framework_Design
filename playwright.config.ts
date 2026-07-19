@@ -11,13 +11,13 @@ const TEST_RESULTS = "test-results";
 
 export default defineConfig({
   globalSetup: require.resolve("./src/global.setup"),
-  fullyParallel: false,
+  fullyParallel: true,
 
   forbidOnly: !!process.env.CI,
 
-  retries: process.env.CI ? 2 : execution.retries,
+  retries: process.env.CI ? 2 : 0,
 
-  workers: process.env.CI ? 2 : undefined,
+  workers: process.env.CI ? 4 : undefined,
 
   timeout: execution.timeout,
 
