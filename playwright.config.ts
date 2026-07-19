@@ -77,8 +77,8 @@ export default defineConfig({
   projects: [
     {
       name: "setup-admin",
-      testDir: "./tests/setup",
-      testMatch: /admin\.setup\.ts$/,
+      testDir: "./tests/ui/auth",
+      testMatch: "setup-admin.setup.ts",
     },
 
     {
