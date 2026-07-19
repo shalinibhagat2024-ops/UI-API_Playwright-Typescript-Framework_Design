@@ -42,7 +42,7 @@ jobs:
         run: npm run auth:admin
 
       - name: Execute UI Tests
-        run: npm run test:ui
+        run: npm run test:ui:auth
 
       - name: Upload Playwright Report
         if: always()

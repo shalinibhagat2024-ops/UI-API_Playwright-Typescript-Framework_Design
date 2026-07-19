@@ -82,6 +82,27 @@ export default defineConfig({
     },
 
     {
+      name: "chromium-auth",
+      testDir: "./tests/ui",
+      testIgnore: ["**/auth/**"],
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "playwright/.auth/AdminUser.json",
+      },
+      dependencies: ["setup-admin"],
+    },
+
+    {
+      name: "chromium-anonymous",
+      testDir: "./tests/ui/authorization",
+      use: {
+        ...devices["Desktop Chrome"],
+        storageState: "playwright/.auth/AdminUser.json",
+      },
+      dependencies: ["setup-admin"],
+    },
+
+    {
       name: "chromium",
       testDir: "./tests/ui",
       use: {
@@ -110,7 +131,6 @@ export default defineConfig({
       },
       dependencies: ["setup-admin"],
     },
-
     {
       name: "api",
       testDir: "./tests/api",

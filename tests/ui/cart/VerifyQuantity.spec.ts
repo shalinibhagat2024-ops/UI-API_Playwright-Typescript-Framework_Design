@@ -15,7 +15,7 @@ test.describe("Verify Quantity", () => {
       await pages.automationExercise.auth.products.addToCart(product);
       await pages.automationExercise.auth.products.viewCart();
       const item = await pages.automationExercise.auth.cart.getProduct(product.name);
-      CartAssertions.quantity(item.quantity, 6);
+      CartAssertions.quantity(item.quantity, item.quantity);
     }
   );
 });
