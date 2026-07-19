@@ -84,7 +84,7 @@ export default defineConfig({
     {
       name: "chromium-auth",
       testDir: "./tests/ui",
-      testIgnore: ["**/auth/**"],
+      testIgnore: ["**/authorization/**"],
       use: {
         ...devices["Desktop Chrome"],
         storageState: "playwright/.auth/AdminUser.json",
