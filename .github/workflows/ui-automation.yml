@@ -74,14 +74,42 @@ jobs:
       - name: Generate Admin Authentication
         run: npm run auth:admin
 
-      - name: Show Selected Options
+      - name: Show Execution Configuration
         run: |
+          echo "======================================"
           echo "Environment : $ENV"
           echo "Browser     : ${{ github.event.inputs.browser || 'chromium' }}"
           echo "Suite       : ${{ github.event.inputs.suite || 'all' }}"
+          echo "======================================"
 
       - name: Execute UI Tests
-        run: npm run test:ui:auth
+        shell: bash
+        run: |
+          PROJECT="${{ github.event.inputs.browser || 'chromium' }}"
+          SUITE="${{ github.event.inputs.suite || 'all' }}"
+
+          COMMAND="npx playwright test --project=$PROJECT"
+
+          case "$SUITE" in
+            smoke)
+              COMMAND="$COMMAND --grep @smoke"
+              ;;
+            regression)
+              COMMAND="$COMMAND --grep @regression"
+              ;;
+            sanity)
+              COMMAND="$COMMAND --grep @sanity"
+              ;;
+            all)
+              ;;
+          esac
+
+          echo ""
+          echo "Executing Command:"
+          echo "$COMMAND"
+          echo ""
+
+          eval "$COMMAND"
 
       - name: Upload Playwright Report
         if: always()
@@ -98,14 +126,5 @@ jobs:
         with:
           name: allure-results
           path: allure-results/
-          if-no-files-found: warn
-          retention-days: 30
-
-      - name: Upload Test Results
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-results
-          path: test-results/
           if-no-files-found: warn
           retention-days: 30
