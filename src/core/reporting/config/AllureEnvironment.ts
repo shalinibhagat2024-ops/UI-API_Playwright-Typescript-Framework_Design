@@ -5,9 +5,6 @@ import path from "path";
 
 export class AllureEnvironment {
   public static generate(): void {
-    const config = EnvironmentManager.getConfig();
-
-    // Ensure allure-results folder exists
     const outputFolder = path.join(process.cwd(), "allure-results");
 
     fs.mkdirSync(outputFolder, {
@@ -19,11 +16,19 @@ export class AllureEnvironment {
 
       `Browser=${EnvironmentManager.getBrowserConfig().name}`,
 
-      `Base_URL= URL=${EnvironmentManager.getBaseUrl()}`,
+      `Base_URL=${EnvironmentManager.getBaseUrl()}`,
 
-      `API_URL= URL=${EnvironmentManager.getApiBaseUrl()}`,
+      `API_URL=${EnvironmentManager.getApiBaseUrl()}`,
 
       `Execution=${process.env.GITHUB_ACTIONS ? "GitHub Actions" : "Local"}`,
+
+      `Branch=${process.env.GITHUB_REF_NAME ?? "Local"}`,
+
+      `Commit=${process.env.GITHUB_SHA ?? "N/A"}`,
+
+      `Build=${process.env.GITHUB_RUN_NUMBER ?? "Local"}`,
+
+      `Repository=${process.env.GITHUB_REPOSITORY ?? "Local Repository"}`,
 
       `OS=${os.type()} ${os.release()}`,
 
@@ -32,8 +37,6 @@ export class AllureEnvironment {
       `Framework=Playwright + TypeScript Enterprise`,
 
       `User=${os.userInfo().username}`,
-
-      `Timezone=${Intl.DateTimeFormat().resolvedOptions().timeZone}`,
     ].join("\n");
 
     fs.writeFileSync(path.join(outputFolder, "environment.properties"), environment);
