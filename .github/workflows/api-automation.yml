@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       environment:
-        description: Environment
+        description: "Environment"
         required: true
         default: qa
         type: choice
@@ -14,7 +14,7 @@ on:
           - prod
 
       suite:
-        description: Test Suite
+        description: "Test Suite"
         required: true
         default: regression
         type: choice
@@ -31,37 +31,39 @@ concurrency:
 jobs:
   api-tests:
     name: API Tests
-
     runs-on: ubuntu-latest
-
     timeout-minutes: 30
 
     env:
       ENV: ${{ github.event.inputs.environment }}
       SUITE: ${{ github.event.inputs.suite }}
-
       ADMIN_USERNAME: ${{ secrets.ADMIN_USERNAME }}
       ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
 
     steps:
+      # Checkout source code
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
+      # Install project dependencies
       - name: Install Dependencies
         run: npm ci
 
+      # Execute API tests
       - name: Make API Script Executable
         run: chmod +x .github/scripts/execute-api.sh
 
       - name: Execute API Tests
         run: .github/scripts/execute-api.sh
 
+      # Upload Playwright report
       - name: Upload Playwright Report
         if: always()
         uses: actions/upload-artifact@v4
@@ -71,6 +73,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
+      # Upload Allure results
       - name: Upload Allure Results
         if: always()
         uses: actions/upload-artifact@v4
@@ -80,11 +83,43 @@ jobs:
           if-no-files-found: warn
           retention-days: 7
 
+      # Upload failed test artifacts
       - name: Upload Failed Test Results
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: api-failed-tests
           path: test-results
+          if-no-files-found: warn
+          retention-days: 7
+
+      # Setup Java for Allure
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      # Install Allure CLI
+      - name: Install Allure
+        run: |
+          wget https://github.com/allure-framework/allure2/releases/download/2.34.1/allure-2.34.1.tgz
+          tar -xzf allure-2.34.1.tgz
+          sudo mv allure-2.34.1 /opt/allure
+          sudo ln -sf /opt/allure/bin/allure /usr/local/bin/allure
+
+      # Generate Allure report
+      - name: Generate Allure Report
+        if: always()
+        run: |
+          allure generate allure-results --clean -o allure-report
+
+      # Upload Allure HTML report
+      - name: Upload Allure HTML Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-api-html-report
+          path: allure-report
           if-no-files-found: warn
           retention-days: 7
