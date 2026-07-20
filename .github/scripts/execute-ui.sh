@@ -1,41 +1,42 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -e
+set -euo pipefail
 
-echo "=============================================="
+echo "====================================================="
 echo "      Playwright UI Automation Execution"
-echo "=============================================="
+echo "====================================================="
 
-echo "Environment    : $ENV"
-echo "Browser        : $BROWSER"
-echo "Suite          : $SUITE"
-echo "Shard          : $SHARD"
-echo "=============================================="
+echo "Environment : ${ENV:-qa}"
+echo "Browser     : ${BROWSER:-chromium}"
+echo "Suite       : ${SUITE:-all}"
+echo "Shard       : ${SHARD:-none}"
+echo "====================================================="
 
-COMMAND="npx playwright test"
+# Build Playwright command
+COMMAND=("npx" "playwright" "test")
 
 #########################################################
 # Browser
 #########################################################
 
-if [ -n "$BROWSER" ]; then
-  COMMAND="$COMMAND --project=$BROWSER"
+if [[ -n "${BROWSER:-}" ]]; then
+    COMMAND+=("--project=${BROWSER}")
 fi
 
 #########################################################
 # Suite
 #########################################################
 
-if [ "$SUITE" != "all" ]; then
-  COMMAND="$COMMAND --grep @$SUITE"
+if [[ "${SUITE:-all}" != "all" ]]; then
+    COMMAND+=("--grep" "@${SUITE}")
 fi
 
 #########################################################
-# Sharding
+# Shard
 #########################################################
 
-if [ -n "$SHARD" ]; then
-  COMMAND="$COMMAND --shard=$SHARD"
+if [[ -n "${SHARD:-}" ]]; then
+    COMMAND+=("--shard=${SHARD}")
 fi
 
 #########################################################
@@ -44,20 +45,21 @@ fi
 
 echo ""
 echo "Executing Command:"
-echo "$COMMAND"
+printf '%q ' "${COMMAND[@]}"
+echo ""
 echo ""
 
 #########################################################
-# Execute Tests
+# Execute
 #########################################################
 
-eval "$COMMAND"
+"${COMMAND[@]}"
 
 #########################################################
-# Execution Completed
+# Completed
 #########################################################
 
 echo ""
-echo "=============================================="
-echo " UI Automation Execution Completed Successfully "
-echo "=============================================="
+echo "====================================================="
+echo "UI Automation Execution Completed Successfully"
+echo "====================================================="

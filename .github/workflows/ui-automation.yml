@@ -1,12 +1,17 @@
 name: UI Automation
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 on:
   workflow_dispatch:
     inputs:
       environment:
         description: "Environment"
         required: true
-        default: "qa"
+        default: qa
         type: choice
         options:
           - qa
@@ -16,7 +21,7 @@ on:
       browser:
         description: "Browser"
         required: true
-        default: "chromium"
+        default: chromium
         type: choice
         options:
           - chromium
@@ -24,9 +29,9 @@ on:
           - webkit
 
       suite:
-        description: "Suite"
+        description: "Test Suite"
         required: true
-        default: "regression"
+        default: regression
         type: choice
         options:
           - smoke
@@ -40,20 +45,22 @@ concurrency:
 
 jobs:
   ui-tests:
-    name: UI Tests (Shard ${{ matrix.shard }})
-
+    name: UI Tests (${{ matrix.artifactName }})
     runs-on: ubuntu-latest
-
     timeout-minutes: 60
 
     strategy:
       fail-fast: false
-
       matrix:
-        shard:
-          - 1/3
-          - 2/3
-          - 3/3
+        include:
+          - shard: "1/3"
+            artifactName: shard-1
+
+          - shard: "2/3"
+            artifactName: shard-2
+
+          - shard: "3/3"
+            artifactName: shard-3
 
     env:
       ENV: ${{ github.event.inputs.environment }}
@@ -65,50 +72,118 @@ jobs:
       ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
 
     steps:
+      # Checkout repository
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      # Setup Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: "22"
           cache: npm
 
+      # Install dependencies
       - name: Install Dependencies
         run: npm ci
 
+      # Install Playwright browsers
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      # Generate authentication
       - name: Generate Authentication
-        run: npm run chromium-auth
+        run: npm run auth:admin
 
+      # Execute UI tests
       - name: Make Execute Script Executable
         run: chmod +x .github/scripts/execute-ui.sh
 
       - name: Execute UI Tests
         run: .github/scripts/execute-ui.sh
 
+      # Upload Playwright report
       - name: Upload Playwright Report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report-${{ matrix.shard }}
+          name: playwright-report-${{ matrix.artifactName }}
           path: playwright-report
+          if-no-files-found: warn
           retention-days: 7
 
+      # Upload Allure results
       - name: Upload Allure Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results-${{ matrix.shard }}
+          name: allure-results-${{ matrix.artifactName }}
           path: allure-results
+          if-no-files-found: warn
           retention-days: 7
 
-      - name: Upload Test Results
+      # Upload failed test artifacts
+      - name: Upload Failed Test Results
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: failed-tests-${{ matrix.shard }}
+          name: failed-tests-${{ matrix.artifactName }}
           path: test-results
+          if-no-files-found: warn
           retention-days: 7
+
+  publish-allure:
+    name: Publish Allure Report
+    needs: ui-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    if: ${{ !cancelled() }}
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      # Download Allure results
+      - name: Download Allure Results
+        uses: actions/download-artifact@v4
+        with:
+          pattern: allure-results-*
+          merge-multiple: true
+          path: allure-results
+
+      # Setup Java
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      # Install Allure CLI
+      - name: Install Allure CLI
+        run: |
+          wget https://github.com/allure-framework/allure2/releases/download/2.34.1/allure-2.34.1.tgz
+          tar -xzf allure-2.34.1.tgz
+          sudo mv allure-2.34.1 /opt/allure
+          sudo ln -sf /opt/allure/bin/allure /usr/local/bin/allure
+
+      # Generate Allure report
+      - name: Generate Allure Report
+        if: always()
+        run: allure generate allure-results --clean -o allure-report
+
+      # Configure GitHub Pages
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      # Upload GitHub Pages artifact
+      - name: Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: allure-report
+
+      # Deploy report
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

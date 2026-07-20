@@ -19,9 +19,10 @@
     "test:api": "playwright test --project=api",
     "report:generate": "allure generate allure-results --clean -o allure-report",
     "report:open": "allure open allure-report",
-    "lint": "eslint .",
+    "report:playwright": "playwright show-report",
+    "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --fix",
-    "typecheck": "tsc --noEmit",
+    "type-check": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "build": "tsc"
