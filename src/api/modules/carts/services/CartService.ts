@@ -1,4 +1,4 @@
-import { ApiClient } from "@api/core/ApiClient";
+import { ApiClient } from "@api/core/client/ApiClient";
 import { CartRequest } from "@api/modules/carts/models/CartRequest";
 import { ApiEndpoints } from "src/api/shared/endpoints/ApiEndpoints";
 import { BaseCrudService } from "src/api/shared/services/BaseCrudService";

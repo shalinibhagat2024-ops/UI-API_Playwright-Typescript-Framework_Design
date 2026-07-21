@@ -6,7 +6,7 @@ test.describe("Place Order", () => {
   test(
     "Verify Complete Purchase",
     {
-      tag: ["@checkout", "@payment", "@smoke"],
+      tag: ["@checkout", "@payment", "@regression", "@smoke"],
     },
     async ({ pages }) => {
       const product = ProductFactory.blueTop();

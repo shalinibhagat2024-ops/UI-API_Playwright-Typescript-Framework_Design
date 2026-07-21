@@ -1,4 +1,4 @@
-import { ApiClient } from "src/api/core/ApiClient";
+import { ApiClient } from "@api/core/client/ApiClient";
 import { ProductCreateRequest } from "src/api/modules/products/models/ProductCreateRequest";
 import { ProductUpdateRequest } from "src/api/modules/products/models/ProductUpdateRequest";
 import { ApiEndpoints } from "src/api/shared/endpoints/ApiEndpoints";

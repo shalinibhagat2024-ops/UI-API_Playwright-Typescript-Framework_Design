@@ -5,7 +5,7 @@ test.describe("Proceed Checkout", () => {
   test(
     "Verify Proceed Checkout",
     {
-      tag: ["@ui", "@cart", "@checkout", "@smoke", "@regression"],
+      tag: ["@ui", "@cart", "@smoke", "@regression", "@p1"],
     },
     async ({ pages }) => {
       const product = ProductFactory.blueTop();

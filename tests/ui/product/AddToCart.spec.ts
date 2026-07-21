@@ -11,7 +11,6 @@ test.describe("Add Product", () => {
       const product = ProductFactory.blueTop();
 
       await pages.automationExercise.home.open();
-
       await pages.automationExercise.auth.products.open();
       await pages.automationExercise.auth.products.addToCart(product);
       await pages.automationExercise.auth.products.viewCart();

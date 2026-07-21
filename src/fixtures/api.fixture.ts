@@ -1,5 +1,5 @@
+import { ApiClient } from "@api/core/client/ApiClient";
 import { test as base } from "@playwright/test";
-import { ApiClient } from "src/api/core/ApiClient";
 import { AuthService } from "src/api/modules/auth/services/AuthService";
 import { CartService } from "src/api/modules/carts/services/CartService";
 import { ProductService } from "src/api/modules/products/services/ProductService";

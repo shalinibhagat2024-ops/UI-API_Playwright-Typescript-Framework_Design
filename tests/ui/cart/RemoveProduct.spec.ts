@@ -6,7 +6,7 @@ test.describe("Remove Product", () => {
   test(
     "Remove Product From Cart",
     {
-      tag: ["@ui", "@cart", "@regression", "@smoke"],
+      tag: ["@ui", "@cart", "@smoke", "@regression", "@p1"],
     },
     async ({ pages }) => {
       const product = ProductFactory.blueTop();

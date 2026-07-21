@@ -1,7 +1,7 @@
+import { DataProviderFactory } from "@api/core/data/DataProviderFactory";
 import { ProductTestData } from "@api/modules/products/data/ProductTestData";
 import { BaseBuilder } from "@api/shared/builders/BaseBuilder";
 import { RandomDataUtil } from "@api/shared/utils/RandomDataUtil";
-import { TestData } from "src/api/core/testdata/TestData";
 import { ProductCreateRequest } from "src/api/modules/products/models/ProductCreateRequest";
 
 export class ProductBuilder extends BaseBuilder<ProductCreateRequest> {
@@ -54,10 +54,10 @@ export class ProductBuilder extends BaseBuilder<ProductCreateRequest> {
   }
 
   public static async fromJson(fileName: string): Promise<ProductCreateRequest> {
-    return await TestData.json<ProductCreateRequest>().read(fileName);
+    return await DataProviderFactory.json<ProductCreateRequest>().read(fileName);
   }
 
   public static fake(): ProductCreateRequest {
-    return TestData.faker().product();
+    return DataProviderFactory.faker().product();
   }
 }

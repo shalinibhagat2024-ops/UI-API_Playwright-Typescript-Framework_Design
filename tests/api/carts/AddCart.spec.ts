@@ -7,16 +7,15 @@ import { Schemas } from "@api/shared/schemas/Schemas";
 import { ResponseUtil } from "@api/shared/utils/ResponseUtil";
 import { test } from "@fixtures/api.fixture";
 
-test("POST - Create Cart", async ({ cartService }) => {
-  const cartRequest = CartBuilder.create().build();
-
-  const response = await cartService.addCart(cartRequest);
-
-  StatusAssertions.verify201(response);
-
-  const cart = await ResponseUtil.json<CartResponse>(response);
-
-  SchemaAssertions.validate(Schemas.Cart, cart);
-
-  CartAssertions.verifyCreatedCart(response, cartRequest, cart);
-});
+test(
+  "POST - Create Cart",
+  { tag: ["@api", "@smoke", "@regression", "@apiCart", "@p2"] },
+  async ({ cartService }) => {
+    const cartRequest = CartBuilder.create().build();
+    const response = await cartService.addCart(cartRequest);
+    StatusAssertions.verify201(response);
+    const cart = await ResponseUtil.json<CartResponse>(response);
+    SchemaAssertions.validate(Schemas.Cart, cart);
+    CartAssertions.verifyCreatedCart(response, cartRequest, cart);
+  }
+);

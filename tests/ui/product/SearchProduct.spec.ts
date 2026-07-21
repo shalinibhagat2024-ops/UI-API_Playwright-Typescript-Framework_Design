@@ -14,13 +14,9 @@ test.describe("Search Product", () => {
     async ({ pages }) => {
       await UiMetadata.productSearch();
       const product = ProductFactory.blueTop();
-
       await pages.automationExercise.home.open();
-
       await pages.automationExercise.auth.products.open();
-
       await pages.automationExercise.auth.products.search(product);
-
       ProductAssertions.exists(
         await pages.automationExercise.auth.products.containsProduct(product)
       );

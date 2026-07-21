@@ -1,4 +1,4 @@
-import { IDataProvider } from "@api/core/testdata/providers/IDataProvider";
+import { IDataProvider } from "@api/core/data/providers/IDataProvider";
 import fs from "fs/promises";
 import Papa from "papaparse";
 import path from "path";

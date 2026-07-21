@@ -7,28 +7,21 @@ import { StatusAssertions } from "@api/shared/assertions/StatusAssertions";
 import { ResponseUtil } from "@api/shared/utils/ResponseUtil";
 import { test } from "@fixtures/api.fixture";
 
-test("Workflow - User Creates Cart", async ({
-  userService,
+test(
+  "Workflow - User Creates Cart",
+  { tag: ["@api", "@sanity", "@apiChainWorkflow", "@p1"] },
+  async ({ userService, cartService }) => {
+    // Step 1 - Get User
 
-  cartService,
-}) => {
-  // Step 1 - Get User
+    const userResponse = await userService.getUserById(1);
+    StatusAssertions.verify200(userResponse);
+    const user = await ResponseUtil.json<UserResponse>(userResponse);
+    UserAssertions.verifyUser(user);
 
-  const userResponse = await userService.getUserById(1);
-
-  StatusAssertions.verify200(userResponse);
-
-  const user = await ResponseUtil.json<UserResponse>(userResponse);
-
-  UserAssertions.verifyUser(user);
-
-  // Step 2 - Create Cart
-
-  const cartRequest = CartBuilder.create().withUser(user.id).build();
-
-  const cartResponse = await cartService.addCart(cartRequest);
-
-  const cart = await ResponseUtil.json<CartResponse>(cartResponse);
-
-  CartAssertions.verifyCartCreatedForUser(cartResponse, cart, user);
-});
+    // Step 2 - Create Cart
+    const cartRequest = CartBuilder.create().withUser(user.id).build();
+    const cartResponse = await cartService.addCart(cartRequest);
+    const cart = await ResponseUtil.json<CartResponse>(cartResponse);
+    CartAssertions.verifyCartCreatedForUser(cartResponse, cart, user);
+  }
+);
