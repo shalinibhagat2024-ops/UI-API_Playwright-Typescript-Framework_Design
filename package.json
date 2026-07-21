@@ -21,7 +21,7 @@
     "report:generate": "allure generate allure-results --clean -o allure-report",
     "report:open": "allure open allure-report",
     "report:serve": "allure serve allure-results",
-    "report:api": "npm run report:clean && playwright test --project=api && npm run report:generate && npm run report:open",
+    "test:api:report": "npm run test:api && npm run report:generate && npm run report:open",
     "report:ui": "npm run report:clean && playwright test --project=chromium && npm run report:generate && npm run report:open",
     "report:all": "npm run report:clean && playwright test && npm run report:generate && npm run report:open",
     "lint": "eslint . --ext .ts",
