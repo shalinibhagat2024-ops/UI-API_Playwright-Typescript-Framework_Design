@@ -6,17 +6,11 @@ import { FileUploadComponent } from "@core/helpers/components/FileUploadComponen
 import { GridComponent } from "@core/helpers/components/GridComponent";
 import { ModalComponent } from "@core/helpers/components/ModalComponent";
 import { PaginationComponent } from "@core/helpers/components/PaginationComponent";
-//import { ProgressBarComponent } from "../components/ProgressBarComponent";
 import { RadioButtonComponent } from "@core/helpers/components/RadioButtonComponent";
-//import { RichTextEditorComponent } from "../components/RichTextEditorComponent";
-//import { SliderComponent } from "../components/SliderComponent";
 import { TableComponent } from "@core/helpers/components/TableComponent";
-//import { TabsComponent } from "../components/TabsComponent";
 import { TextBoxComponent } from "@core/helpers/components/TextBoxComponent";
 import { ToastComponent } from "@core/helpers/components/ToastComponent";
 import { Locator, Page } from "@playwright/test";
-//import { TooltipComponent } from "../components/TooltipComponent";
-//import { TreeComponent } from "../components/TreeComponent";
 
 export class UIManager {
   constructor(private readonly page: Page) {}
