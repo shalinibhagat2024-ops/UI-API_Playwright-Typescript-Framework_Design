@@ -1,4 +1,4 @@
-import { ApiClient } from "@api/core/ApiClient";
+import { ApiClient } from "@api/core/client/ApiClient";
 import { UserRequest } from "@api/modules/users/models/UserRequest";
 import { ApiEndpoints } from "src/api/shared/endpoints/ApiEndpoints";
 import { BaseCrudService } from "src/api/shared/services/BaseCrudService";

@@ -1,4 +1,4 @@
-import { IDataProvider } from "@api/core/testdata/providers/IDataProvider";
+import { IDataProvider } from "@api/core/data/providers/IDataProvider";
 import path from "path";
 import * as XLSX from "xlsx";
 

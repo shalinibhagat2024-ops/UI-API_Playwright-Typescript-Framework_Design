@@ -8,7 +8,6 @@ test.describe("Brand", () => {
     },
     async ({ pages, page }) => {
       await pages.automationExercise.home.open();
-
       await pages.automationExercise.auth.products.open();
       await pages.automationExercise.auth.products.selectBrand("Polo");
 

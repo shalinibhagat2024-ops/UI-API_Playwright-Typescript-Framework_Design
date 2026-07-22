@@ -8,7 +8,6 @@ test.describe("Category", () => {
     },
     async ({ page, pages }) => {
       await pages.automationExercise.home.open();
-
       await pages.automationExercise.auth.products.open();
       await pages.automationExercise.auth.products.selectCategory("Women", "Dress");
 

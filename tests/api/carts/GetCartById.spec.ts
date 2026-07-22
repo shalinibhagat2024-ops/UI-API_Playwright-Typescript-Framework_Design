@@ -6,14 +6,14 @@ import { Schemas } from "@api/shared/schemas/Schemas";
 import { ResponseUtil } from "@api/shared/utils/ResponseUtil";
 import { test } from "@fixtures/api.fixture";
 
-test("GET - Get Cart By Id", async ({ cartService }) => {
-  const response = await cartService.getCartById(1);
-
-  StatusAssertions.verify200(response);
-
-  const cart = await ResponseUtil.json<CartResponse>(response);
-
-  SchemaAssertions.validate(Schemas.Cart, cart);
-
-  CartAssertions.verifyCart(cart);
-});
+test(
+  "GET - Get Cart By Id",
+  { tag: ["@api", "@smoke", "@regression", "@apiCart", "@p2"] },
+  async ({ cartService }) => {
+    const response = await cartService.getCartById(1);
+    StatusAssertions.verify200(response);
+    const cart = await ResponseUtil.json<CartResponse>(response);
+    SchemaAssertions.validate(Schemas.Cart, cart);
+    CartAssertions.verifyCart(cart);
+  }
+);

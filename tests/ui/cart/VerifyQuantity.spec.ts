@@ -6,7 +6,7 @@ test.describe("Verify Quantity", () => {
   test(
     "Verify Default Quantity",
     {
-      tag: ["@ui", "@cart", "@regression"],
+      tag: ["@ui", "@cart", "@smoke", "@regression", "@p1"],
     },
     async ({ pages }) => {
       const product = ProductFactory.blueTop();

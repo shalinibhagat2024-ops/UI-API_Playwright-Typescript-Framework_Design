@@ -4,12 +4,9 @@ import { LoginResponse } from "@api/modules/auth/models/LoginResponse";
 import { ResponseUtil } from "@api/shared/utils/ResponseUtil";
 import { test } from "@fixtures/api.fixture";
 
-test("POST - Login", async ({ authService }) => {
+test("POST - Login", { tag: ["@api", "@smoke", "@regression", "@p1"] }, async ({ authService }) => {
   const loginRequest = AuthBuilder.defaultLogin();
-
   const response = await authService.login(loginRequest);
-
   const loginResponse = await ResponseUtil.json<LoginResponse>(response);
-
   AuthAssertions.verifyLogin(response, loginResponse);
 });

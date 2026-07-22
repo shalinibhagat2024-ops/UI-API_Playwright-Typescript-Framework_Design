@@ -14,6 +14,4 @@ export interface ProductCreateRequest {
   rating?: number;
 
   discountPercentage?: number;
-
-  thumbnail: string;
 }

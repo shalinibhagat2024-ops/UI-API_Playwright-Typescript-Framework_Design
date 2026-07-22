@@ -7,16 +7,15 @@ import { Schemas } from "@api/shared/schemas/Schemas";
 import { ResponseUtil } from "@api/shared/utils/ResponseUtil";
 import { test } from "@fixtures/api.fixture";
 
-test("POST - Create User", async ({ userService }) => {
-  const userRequest = UserBuilder.create().build();
-
-  const response = await userService.addUser(userRequest);
-
-  StatusAssertions.verify201(response);
-
-  const user = await ResponseUtil.json<UserResponse>(response);
-
-  SchemaAssertions.validate(Schemas.User, user);
-
-  UserAssertions.verifyCreatedUser(response, userRequest, user);
-});
+test(
+  "POST - Create User",
+  { tag: ["@api", "@sanity", "@apiUser", "@p2"] },
+  async ({ userService }) => {
+    const userRequest = UserBuilder.create().build();
+    const response = await userService.addUser(userRequest);
+    StatusAssertions.verify201(response);
+    const user = await ResponseUtil.json<UserResponse>(response);
+    SchemaAssertions.validate(Schemas.User, user);
+    UserAssertions.verifyCreatedUser(response, userRequest, user);
+  }
+);

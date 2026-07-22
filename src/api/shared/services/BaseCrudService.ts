@@ -1,5 +1,5 @@
-import { ApiClient } from "@api/core/ApiClient";
-import { BaseApiService } from "@api/core/BaseApiService";
+import { ApiClient } from "@api/core/client/ApiClient";
+import { BaseApiService } from "@api/shared/services/BaseApiService";
 
 export abstract class BaseCrudService<TRequest> extends BaseApiService {
   constructor(
