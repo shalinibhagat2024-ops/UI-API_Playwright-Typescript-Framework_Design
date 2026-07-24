@@ -1,7 +1,7 @@
 import { test as setup } from "@playwright/test";
 import { EnvironmentManager } from "src/core/config/EnvironmentManager";
 
-setup("Authenticate", { tag: ["@ui", "@regression", "@smoke", "@p"] }, async ({ page }) => {
+setup("Authenticate", { tag: ["@ui", "@regression", "@smoke", "@p1"] }, async ({ page }) => {
   await page.goto(EnvironmentManager.getBaseUrl());
   await page.locator("a[href='/login']").click();
   await page.locator("[data-qa='login-email']").fill(EnvironmentManager.getAdminUsername());

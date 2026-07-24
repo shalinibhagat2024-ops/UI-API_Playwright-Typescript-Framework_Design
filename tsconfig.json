@@ -20,7 +20,7 @@
       "@utils/*": ["src/utils/*"],
       "@tests/*": ["tests/*"],
       "@testdata/*": ["test-data/*"],
-      "@model/*": ["src/model/*"]
+      "@model/*": ["src/models/*"]
     },
     "ignoreDeprecations": "6.0",
     "types": ["node", "@playwright/test"]

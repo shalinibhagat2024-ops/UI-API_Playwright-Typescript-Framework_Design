@@ -1,4 +1,4 @@
-import { LogLevel } from "@api/core/logging/LogLevel";
+import { LogLevel } from "@core/logger/LogLevel";
 
 export class ConsoleLogger {
   public static log(

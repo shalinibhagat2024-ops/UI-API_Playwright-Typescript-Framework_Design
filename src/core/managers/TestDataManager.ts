@@ -1,6 +1,6 @@
 import { EnvironmentManager } from "@core/config/EnvironmentManager";
-import { User } from "@model/newUser/User";
 import path from "path";
+import { User } from "src/models/newUser/User";
 
 import { JsonReader } from "../helpers/dataReaders/JsonReader";
 

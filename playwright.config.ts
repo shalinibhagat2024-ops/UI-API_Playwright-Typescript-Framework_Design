@@ -8,10 +8,11 @@ const reporting = EnvironmentManager.getReportingConfig();
 const PLAYWRIGHT_REPORT = "playwright-report";
 const ALLURE_RESULTS = "allure-results";
 const TEST_RESULTS = "test-results";
+const JSON_REPORT = `${TEST_RESULTS}/results.json`;
 
 export default defineConfig({
   globalSetup: require.resolve("./src/global.setup"),
-  fullyParallel: true,
+  fullyParallel: false,
 
   forbidOnly: !!process.env.CI,
 
@@ -35,6 +36,13 @@ export default defineConfig({
       {
         outputFolder: PLAYWRIGHT_REPORT,
         open: "never",
+      },
+    ],
+
+    [
+      "json",
+      {
+        outputFile: JSON_REPORT,
       },
     ],
 
@@ -82,8 +90,9 @@ export default defineConfig({
     },
 
     {
-      name: "chromium-auth",
+      name: "ui",
       testDir: "./tests/ui",
+      testIgnore: ["**/authorization/**"],
       use: {
         ...devices["Desktop Chrome"],
         storageState: "playwright/.auth/AdminUser.json",

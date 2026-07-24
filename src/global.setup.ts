@@ -1,4 +1,4 @@
-import { ReportInitializer } from "src/core/reporting/ReportInitializer";
+import { ReportInitializer } from "@core/reporting/ReportInitializer";
 
 async function globalSetup(): Promise<void> {
   ReportInitializer.initialize();

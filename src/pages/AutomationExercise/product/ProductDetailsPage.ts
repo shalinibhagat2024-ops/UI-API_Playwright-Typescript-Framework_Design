@@ -1,6 +1,6 @@
 import { Logger } from "@core/logger/Logger";
-import { Product } from "@model/Product";
 import { Locator, Page } from "@playwright/test";
+import { Product } from "src/models/Product";
 import { BasePage } from "src/pages/AutomationExercise/basePage/BasePage";
 import { ProductBuilder } from "src/testdata/builders/ProductBuilder";
 

@@ -1,6 +1,6 @@
 import { expect, Locator, Page } from "@playwright/test";
 import { Logger } from "src/core/logger/Logger";
-import { CartItem } from "src/model/CartItem";
+import { CartItem } from "src/models/CartItem";
 import { BasePage } from "src/pages/AutomationExercise/basePage/BasePage";
 
 export class CartPage extends BasePage {

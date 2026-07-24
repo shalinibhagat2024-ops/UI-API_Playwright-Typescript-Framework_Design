@@ -1,4 +1,6 @@
 import { EnvironmentManager } from "@core/config/EnvironmentManager";
+import { ConsoleLogger } from "@core/logger/ConsoleLogger";
+import { FileLogger } from "@core/logger/FileLogger";
 import { LoggerConfig } from "@core/logger/LoggerConfig";
 import { LogLevel } from "@core/logger/LogLevel";
 import * as allure from "allure-js-commons";
@@ -61,5 +63,13 @@ export class Logger {
       return;
     }
     console.debug(Logger.format(LogLevel.DEBUG, message));
+  }
+
+  private static log(level: LogLevel, message: string): void {
+    const formatted = `[${new Date().toISOString()}] [${level}] ${message}`;
+
+    ConsoleLogger.log(level, message);
+
+    FileLogger.write(formatted);
   }
 }

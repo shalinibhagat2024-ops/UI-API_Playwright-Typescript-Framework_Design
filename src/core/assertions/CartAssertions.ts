@@ -1,5 +1,5 @@
-import { CartItem } from "@model/CartItem";
 import { expect } from "@playwright/test";
+import { CartItem } from "src/models/CartItem";
 
 export class CartAssertions {
   /**

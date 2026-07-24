@@ -1,5 +1,5 @@
 import { RandomUtil } from "@utils/random/RandomUtil";
-import { User } from "src/model/user";
+import { User } from "src/models/user";
 
 import { UserBuilder } from "../builders/UserBuilder";
 
