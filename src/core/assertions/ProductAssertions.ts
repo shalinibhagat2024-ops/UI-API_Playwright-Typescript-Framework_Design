@@ -1,5 +1,5 @@
-import { Product } from "@model/Product";
 import { expect } from "@playwright/test";
+import { Product } from "src/models/Product";
 
 export class ProductAssertions {
   /**

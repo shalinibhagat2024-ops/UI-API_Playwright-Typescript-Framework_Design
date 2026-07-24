@@ -1,5 +1,5 @@
 import { DataGenerator } from "@utils/data/DataGenerator";
-import { Product } from "src/model/Product";
+import { Product } from "src/models/Product";
 
 export class ProductData {
   public static valid(): Product {

@@ -1,9 +1,10 @@
 import { test as base } from "@playwright/test";
 import { FailureReporter } from "src/core/reporting/failure/FailureReporter";
-import { AccountCreatedPage } from "src/pages/AutomationExercise/auth/AccountCreatedPage";
-import { DeleteAccountPage } from "src/pages/AutomationExercise/auth/DeleteAccountPage";
-import { LoginPage } from "src/pages/AutomationExercise/auth/LoginPage";
-import { SignupInformationPage } from "src/pages/AutomationExercise/auth/SignupInformationPage";
+import { AccountCreatedPage } from "src/pages/AutomationExercise/authorization/AccountCreatedPage";
+import { DeleteAccountPage } from "src/pages/AutomationExercise/authorization/DeleteAccountPage";
+import { LoginPage } from "src/pages/AutomationExercise/authorization/LoginPage";
+import { LogoutPage } from "src/pages/AutomationExercise/authorization/LogoutPage";
+import { SignupInformationPage } from "src/pages/AutomationExercise/authorization/SignupInformationPage";
 import { CartPage } from "src/pages/AutomationExercise/cart/CartPage";
 import { CheckoutPage } from "src/pages/AutomationExercise/checkout/CheckoutPage";
 import { Header } from "src/pages/AutomationExercise/common/Header";
@@ -28,6 +29,7 @@ export interface PageFixture {
         checkout: CheckoutPage;
         payment: PaymentPage;
         orderPlaced: OrderPlacedPage;
+        logOut: LogoutPage;
       };
       common: {
         header: Header;
@@ -52,6 +54,7 @@ export const test = base.extend<PageFixture>({
           checkout: new CheckoutPage(page),
           payment: new PaymentPage(page),
           orderPlaced: new OrderPlacedPage(page),
+          logOut: new LogoutPage(page),
         },
         common: {
           header: new Header(page),

@@ -1,6 +1,6 @@
 import { Logger } from "@core/logger/Logger";
-import { Product } from "@model/Product";
 import { expect, Locator, Page } from "@playwright/test";
+import { Product } from "src/models/Product";
 import { BasePage } from "src/pages/AutomationExercise/basePage/BasePage";
 
 export class ProductsPage extends BasePage {

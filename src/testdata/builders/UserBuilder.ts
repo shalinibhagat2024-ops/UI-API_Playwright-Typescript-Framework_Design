@@ -1,4 +1,4 @@
-import { User } from "src/model/user";
+import { User } from "src/models/user";
 
 export class UserBuilder {
   private readonly user: User = {} as User;

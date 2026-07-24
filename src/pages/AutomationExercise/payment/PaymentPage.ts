@@ -1,6 +1,6 @@
 import { Logger } from "@core/logger/Logger";
 import { Locator, Page } from "@playwright/test";
-import { Payment } from "src/model/Payment";
+import { Payment } from "src/models/Payment";
 import { BasePage } from "src/pages/AutomationExercise/basePage/BasePage";
 
 export class PaymentPage extends BasePage {

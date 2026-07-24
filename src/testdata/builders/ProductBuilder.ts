@@ -1,4 +1,4 @@
-import { Product } from "src/model/Product";
+import { Product } from "src/models/Product";
 
 export class ProductBuilder {
   private readonly product: Product = {
@@ -8,6 +8,7 @@ export class ProductBuilder {
     brand: "",
     price: 0,
     availability: "",
+    thumbnail: "",
   };
 
   public id(value: number): ProductBuilder {

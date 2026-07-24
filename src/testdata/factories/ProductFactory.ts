@@ -1,4 +1,4 @@
-import { Product } from "src/model/Product";
+import { Product } from "src/models/Product";
 import { ProductBuilder } from "src/testdata/builders/ProductBuilder";
 
 export class ProductFactory {

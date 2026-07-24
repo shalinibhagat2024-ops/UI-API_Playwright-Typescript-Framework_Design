@@ -9,17 +9,18 @@ export class HomePage extends BasePage {
   private readonly lnkProducts: Locator;
   private readonly lnkCart: Locator;
   private readonly lblLoggedInAs: Locator;
-  private readonly btnLogout: Locator;
+  private readonly logoutLink: Locator;
 
   constructor(page: Page) {
     super(page);
+
     this.lnkSignupLogin = page.locator("a[href='/login']");
     this.lnkProducts = page.locator("header").getByRole("link", {
       name: /^Products$/i,
     });
     this.lnkCart = page.locator("a[href='/view_cart']");
     this.lblLoggedInAs = page.locator("li").filter({ hasText: "Logged in as" });
-    this.btnLogout = page.getByText("Login to your account");
+    this.logoutLink = page.locator("a[href='/logout']");
   }
 
   /**
@@ -35,9 +36,9 @@ export class HomePage extends BasePage {
    */
   public async openLogin(): Promise<void> {
     Logger.info("Opening Login Page.");
-    if (await this.btnLogout.isVisible()) {
+    if (await this.logoutLink.isVisible()) {
       Logger.info("User is already logged in. Logging out...");
-      await this.btnLogout.click();
+      await this.logoutLink.click();
     }
     await this.ui.button(this.lnkSignupLogin).click();
   }

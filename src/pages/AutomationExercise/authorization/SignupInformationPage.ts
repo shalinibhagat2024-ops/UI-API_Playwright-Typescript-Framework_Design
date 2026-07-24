@@ -1,6 +1,6 @@
 import { Logger } from "@core/logger/Logger";
 import { Locator, Page } from "@playwright/test";
-import { User } from "src/model/user";
+import { User } from "src/models/user";
 
 import { BasePage } from "../basePage/BasePage";
 

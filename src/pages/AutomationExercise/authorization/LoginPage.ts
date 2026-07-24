@@ -70,4 +70,19 @@ export class LoginPage extends BasePage {
   public async verifyLoaded(): Promise<void> {
     await this.assertions.visible(this.lblLoginHeader);
   }
+
+  //Verify user is login or not
+
+  async isLoggedIn(): Promise<boolean> {
+    return await this.lblLoginHeader.isVisible().catch(() => false);
+  }
+
+  async loginIfRequired(username: string, password: string): Promise<void> {
+    if (await this.isLoggedIn()) {
+      console.log("User is already logged in.");
+      return;
+    }
+    console.log("User is not logged in. Logging in...");
+    await this.login(username, password);
+  }
 }

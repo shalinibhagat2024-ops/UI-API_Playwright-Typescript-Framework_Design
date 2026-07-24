@@ -197,11 +197,6 @@ jobs:
             --clean \
             --output allure-report
 
-      - name: Prepare UI Report
-        run: |
-          mkdir -p site/ui
-          cp -R allure-report/* site/ui/
-
       # Configure GitHub Pages
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
